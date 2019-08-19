@@ -47,7 +47,7 @@ def positive_and_negative(string: list) -> list:
 def brackets_expressions(string: list):
     simple_expression = []
     if '(' in string:
-        start = ''.join(string).rindex('(') - 1
+        start = len(string) - string[::-1].index('(') - 1
         finish = start
         for symbol in string[start:]:
             if symbol == ')':
