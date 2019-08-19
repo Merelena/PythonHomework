@@ -7,7 +7,7 @@ def pycalc(string: str):
     brackets_list = findall('[(-)]', string)  # Searching for brackets to check a balance of them
     if brackets_list.count('(') != brackets_list.count(')'):
         raise Exception('ERROR: brackets are not balanced')
-    string = positive_and_negative(findall('[0-9.]+|//|==|<=|=>|!=|\D|[^ ]', merging_pluses_and_minuses(string)))
+    string = positive_and_negative(findall('[0-9.]+|//|==|<=|=>|!=|[<>*/^%)(+-]', merging_pluses_and_minuses(string)))
     while len(string) != 1:
         string = brackets_expressions(string)
     return string
