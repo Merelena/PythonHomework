@@ -1,4 +1,4 @@
-"""This module exports arithmetic, comparison and other auxiliary functions, dictionaries ans lists
+"""This module exports arithmetic, COMPARISON and other auxiliary functions, dictionaries ans lists
 
 :author: Fyodorova Elena
 """
@@ -38,59 +38,59 @@ def division_with_remainder(first_number: float, second_number: float) -> float:
 
 
 def less(first_number: float, second_number: float) -> bool:
-    """Returns the result of comparison '<' of input numbers"""
+    """Returns the result of COMPARISON '<' of input numbers"""
     return first_number < second_number
 
 
-def less_or_equel(first_number: float, second_number: float) -> bool:
-    """Returns the result of comparison '<=' of input numbers"""
+def less_or_equal(first_number: float, second_number: float) -> bool:
+    """Returns the result of COMPARISON '<=' of input numbers"""
     return first_number <= second_number
 
 
 def greater(first_number: float, second_number: float) -> bool:
-    """Returns the result of comparison '>' of input numbers"""
+    """Returns the result of COMPARISON '>' of input numbers"""
     return first_number > second_number
 
 
-def greater_or_equel(first_number: float, second_number: float) -> bool:
-    """Returns the result of comparison '>=' of input numbers"""
+def greater_or_equal(first_number: float, second_number: float) -> bool:
+    """Returns the result of COMPARISON '>=' of input numbers"""
     return first_number >= second_number
 
 
-def unequel(first_number: float, second_number: float) -> bool:
-    """Returns the result of comparison '!=' of input numbers"""
+def unequal(first_number: float, second_number: float) -> bool:
+    """Returns the result of COMPARISON '!=' of input numbers"""
     return first_number != second_number
 
 
-def equel(first_number: float, second_number: float) -> bool:
-    """Returns the result of comparison '==' of input numbers"""
+def equal(first_number: float, second_number: float) -> bool:
+    """Returns the result of COMPARISON '==' of input numbers"""
     return first_number == second_number
 
 
-function_dict = math.__dict__
-function_dict.update({'round': round, 'abs': abs})
-third_step_priority = {'+': addition, '-': subtraction}
-second_step_priority = {
+FUNCTION_DICT = math.__dict__
+FUNCTION_DICT.update({'round': round, 'abs': abs})
+THIRD_STEP_PRIORITY = {'+': addition, '-': subtraction}
+SECOND_STEP_PRIORITY = {
     '*': multiplication,
     '/': division,
     '//': whole_division,
     '%': division_with_remainder,
 }
-first_step_priority = {'^': pow}
-comparison = {
+FIRST_STEP_PRIORITY = {'^': pow}
+COMPARISON = {
     '<': less,
-    '<=': less_or_equel,
+    '<=': less_or_equal,
     '>': greater,
-    '>=': greater_or_equel,
-    '!=': unequel,
-    '==': equel
+    '>=': greater_or_equal,
+    '!=': unequal,
+    '==': equal
 }
-simple_actions = [second_step_priority, third_step_priority, comparison]
-constants = {
+SIMPLE_ACTIONS = [SECOND_STEP_PRIORITY, THIRD_STEP_PRIORITY, COMPARISON]
+CONSTANTS = {
     'e': math.e,
     'pi': math.pi,
     'tau': math.tau,
     'nan': math.nan,
     'inf': math.inf
 }
-operation_set = ('*', '/', '//', '%', '<', '>', '=', '(', '^')   # For searching for negative and positive numbers
+OPERATION_SET = ('*', '/', '//', '%', '<', '>', '=', '(', '^')   # For searching for negative and positive numbers
