@@ -1,8 +1,13 @@
 import unittest
 import pycalc
+import Data
 
 
-class pycalc_test(unittest.TestCase):
+class MainModuleTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        print('Functions of main module: ')
+
     def test_searching_for_constants(self):
         self.assertEqual(pycalc.searching_for_constants(
             ['e', '+', 'pi']),
@@ -18,6 +23,64 @@ class pycalc_test(unittest.TestCase):
     def test_positive_and_negative(self):
         self.assertEqual(pycalc.positive_and_negative(['-', '4']), ['-4.0'])
 
+    def test_raising_a_power(self):
+        self.assertEqual(pycalc.raising_a_power(['2', '^', '3']), ['8.0'])
+
+    def test_inclusion_in_general_expression(self):
+        self.assertEqual(
+            pycalc.inclusion_in_general_expression(['2', '*', '(', '1', '+', '2', ')'], ['3'], 2, 6),
+            ['2', '*', '3.0'])
+
+    def test_calculating_expression_in_brackets(self):
+        self.assertEqual(pycalc.calculating_expression_in_brackets(list('2^2^(6/3)')), ['2', '^', '2', '^', '2.0'])
+
+
+class DataModuleTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        print('Functions of data module: ')
+
+    def test_addition(self):
+        self.assertEqual(Data.addition(3.0, 4.0), 7.0)
+
+    def test_subtraction(self):
+        self.assertEqual(Data.subtraction(7.0, 4.0), 3.0)
+
+    def test_multiplication(self):
+        self.assertEqual(Data.multiplication(3.0, 4.0), 12.0)
+
+    def test_division(self):
+        self.assertEqual(Data.division(12.0, 3.0), 4.0)
+
+    def test_whole_division(self):
+        self.assertEqual(Data.whole_division(11.0, 3.0), 3.0)
+
+    def test_division_with_remainder(self):
+        self.assertEqual(Data.division_with_remainder(11.0, 3.0), 2.0)
+
+    def less(self):
+        self.assertEqual(Data.less(1.0, 3.0), True)
+        self.assertEqual(Data.less(3.0, 3.0), False)
+
+    def less_or_equal(self):
+        self.assertEqual(Data.less_or_equal(3.0, 3.0), True)
+        self.assertEqual(Data.less_or_equal(3.0, 4.0), True)
+
+    def greater(self):
+        self.assertEqual(Data.greater(4.0, 3.0), True)
+        self.assertEqual(Data.greater(3.0, 3.0), False)
+
+    def greater_or_equel(self):
+        self.assertEqual(Data.greater(4.0, 3.0), True)
+        self.assertEqual(Data.greater(3.0, 3.0), True)
+
+    def unequel(self):
+        self.assertEqual(Data.greater(4.0, 3.0), True)
+        self.assertEqual(Data.greater(3.0, 3.0), False)
+
+    def equel(self):
+        self.assertEqual(Data.greater(4.0, 3.0), False)
+        self.assertEqual(Data.greater(3.0, 3.0), True)
 
 if __name__ == '__main__':
     unittest.main()
