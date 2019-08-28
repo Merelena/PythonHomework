@@ -74,7 +74,8 @@ def merging_pluses_and_minuses(input_string: list) -> list:
             input_string[index] = '+'
             del input_string[index + 1]
             length -= 1
-        else: index += 1
+        else: 
+            index += 1
     return input_string
 
 
