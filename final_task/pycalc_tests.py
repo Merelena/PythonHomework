@@ -58,29 +58,30 @@ class DataModuleTest(unittest.TestCase):
     def test_division_with_remainder(self):
         self.assertEqual(Data.division_with_remainder(11.0, 3.0), 2.0)
 
-    def less(self):
+    def test_less(self):
         self.assertEqual(Data.less(1.0, 3.0), True)
         self.assertEqual(Data.less(3.0, 3.0), False)
 
-    def less_or_equal(self):
+    def test_less_or_equal(self):
         self.assertEqual(Data.less_or_equal(3.0, 3.0), True)
         self.assertEqual(Data.less_or_equal(3.0, 4.0), True)
 
-    def greater(self):
+    def test_greater(self):
         self.assertEqual(Data.greater(4.0, 3.0), True)
         self.assertEqual(Data.greater(3.0, 3.0), False)
 
-    def greater_or_equel(self):
+    def test_greater_or_equal(self):
         self.assertEqual(Data.greater(4.0, 3.0), True)
         self.assertEqual(Data.greater(3.0, 3.0), True)
 
-    def unequel(self):
+    def test_unequal(self):
         self.assertEqual(Data.greater(4.0, 3.0), True)
         self.assertEqual(Data.greater(3.0, 3.0), False)
 
-    def equel(self):
+    def test_equal(self):
         self.assertEqual(Data.greater(4.0, 3.0), False)
         self.assertEqual(Data.greater(3.0, 3.0), True)
+
 
 if __name__ == '__main__':
     unittest.main()

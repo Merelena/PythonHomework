@@ -2,7 +2,7 @@
 
 :author: Fyodorova Elena
 """
-from re import split, findall, sub
+from re import findall
 import Data
 
 
@@ -17,13 +17,13 @@ def pycalc(string: str):
     if brackets_list.count('(') != brackets_list.count(')'):
         return 'ERROR: brackets are not balanced'
     for function in findall(
-            '[a-zA-Z]+|[a-zA-Z]+\d+|\d+[a-zA-Z]+',
+            '[a-zA-Z]+|[a-zA-Z]+\\d+|\\d+[a-zA-Z]+',
             string):
         if function not in Data.FUNCTION_DICT:
             return "ERROR: '{0}' is unknown function or constant".format(function)
     # Searching for unknown number and letter combinations
     string = positive_and_negative(searching_for_constants(findall(
-        '[0-9.]+|//|==|<=|=>|!=|[<>*/^%)(+-]|\w+\d+|\w+|[^ ,\[\]]', merging_pluses_and_minuses(string)
+        '[0-9.]+|//|==|<=|=>|!=|[<>*/^%)(+-]|\\w+\\d+|\\w+|[^ ,\\[\\]]', merging_pluses_and_minuses(string)
     )))
     # Merging pluses and minuses and searching for negative and positive numbers
     try:
@@ -32,13 +32,16 @@ def pycalc(string: str):
     except ValueError:
         return 'ERROR: no expression'
     while len(string) != 1 or (string.count(float) - 1 == string.count(',')):
-        if 'ERROR' in string: return string
+        if 'ERROR' in string:
+            return string
         string = calculating_expression_in_brackets(string)
     # Calculating simple expressions in brackets and out of them or returns error message
     if string[0] != 'True' and string[0] != 'False':
         return float(string[0])
-    elif string[0] == 'True': return True
-    else: return False
+    elif string[0] == 'True':
+        return True
+    else:
+        return False
 
 
 def searching_for_constants(string: list) -> list:
@@ -92,7 +95,7 @@ def raising_a_power(expression: list) -> list:
     return expression
 
 
-def inclusion_in_general_expression(string, expression: list, start, finish) -> list:
+def inclusion_in_general_expression(string, expression: list, start, finish):
     """Embeds result of calculating expressions in general expression"""
     for index, number in enumerate(expression):
         if type(expression[index]) != bool:
@@ -126,7 +129,8 @@ def calculating_expression_in_brackets(string: list):
                 break
             simple_expression.append(symbol)   # Updating of simple expression in brackets
             finish += 1
-            if simple_expression[0] == '(': del simple_expression[0]
+            if simple_expression[0] == '(':
+                del simple_expression[0]
     else:
         start = 0
         finish = len(string) - 1
@@ -135,7 +139,8 @@ def calculating_expression_in_brackets(string: list):
     temp = positive_and_negative(simple_expression)   # Retests to negative and positive numbers
     finish -= len(simple_expression) - len(temp)   # Calculates finish of simple expression without closing bracket
     simple_expression = temp   # Updating of simple expression
-    if '^' in simple_expression: simple_expression = raising_a_power(simple_expression)
+    if '^' in simple_expression:
+        simple_expression = raising_a_power(simple_expression)
     temp = 0   # For correct calculating of indexes in following cycle
     try:
         for action in Data.SIMPLE_ACTIONS:
