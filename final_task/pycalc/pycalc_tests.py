@@ -9,11 +9,11 @@ class MainModuleTest(unittest.TestCase):
         print('Functions of main module: ')
 
     def test_pycalc(self):
-        self.assertEqual('----', text.startswith('ERROR:'))
-        self.assertEqual('e^e^2', e**e**2)
-        self.assertEqual('log', text.startswith('ERROR:'))
-        self.assertEqual('sin(pi/2)', 1)
-        self.assertEqual('()()()()((((())', text.startswith('ERROR:')
+        self.assertTrue(pycalc.pycalc('----').startswith('ERROR:'))
+        self.assertTrue(pycalc.pycalc('log').startswith('ERROR:'))
+        self.assertTrue(pycalc.pycalc('()(((((())').startswith('ERROR:'))
+        self.assertEqual(pycalc.pycalc('3^1^2'), 3)
+        self.assertEqual(pycalc.pycalc('sin(pi/2)'), 1)
 
     def test_searching_for_constants(self):
         self.assertEqual(pycalc.searching_for_constants(
