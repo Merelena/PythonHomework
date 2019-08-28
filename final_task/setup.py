@@ -12,4 +12,4 @@ setup(name='pycalc',
                 'pycalc=pycalc.pycalc:main'
           ]
       }
-)
+      )

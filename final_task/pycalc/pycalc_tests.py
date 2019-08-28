@@ -71,16 +71,16 @@ class DataModuleTest(unittest.TestCase):
         self.assertEqual(Data.greater(3.0, 3.0), False)
 
     def test_greater_or_equal(self):
-        self.assertEqual(Data.greater(4.0, 3.0), True)
-        self.assertEqual(Data.greater(3.0, 3.0), True)
+        self.assertEqual(Data.greater_or_equel(4.0, 3.0), True)
+        self.assertEqual(Data.greater_or_equel(3.0, 3.0), True)
 
     def test_unequal(self):
-        self.assertEqual(Data.greater(4.0, 3.0), True)
-        self.assertEqual(Data.greater(3.0, 3.0), False)
+        self.assertEqual(Data.unequal(4.0, 3.0), True)
+        self.assertEqual(Data.unequal(3.0, 3.0), False)
 
     def test_equal(self):
-        self.assertEqual(Data.greater(4.0, 3.0), False)
-        self.assertEqual(Data.greater(3.0, 3.0), True)
+        self.assertEqual(Data.equal(4.0, 3.0), False)
+        self.assertEqual(Data.equal(3.0, 3.0), True)
 
 
 if __name__ == '__main__':

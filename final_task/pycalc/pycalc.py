@@ -23,15 +23,15 @@ def pycalc(string: str):
         if function not in Data.FUNCTION_DICT:
             return "ERROR: '{0}' is unknown function or constant".format(function)
     # Searching for unknown number and letter combinations
-    string = positive_and_negative(searching_for_constants(findall(
-        '[0-9.]+|//|==|<=|=>|!=|[<>*/^%)(+-]|\\w+\\d+|\\w+|[^ ,\\[\\]\']', merging_pluses_and_minuses(string)
-    )))
-    # Merging pluses and minuses and searching for negative and positive numbers
     try:
         if len(string) <= 1:
             float(string[0])
     except ValueError:
         return 'ERROR: no expression'
+    string = positive_and_negative(searching_for_constants(merging_pluses_and_minuses(findall(
+        '[0-9.]+|//|==|<=|>=|!=|[<>*/^%)(+-]|\\w+\\d+|\\w+|[^ ,\\[\\]\']', string
+    ))))
+    # Merging pluses and minuses and searching for negative and positive numbers
     while len(string) != 1 or (string.count(float) - 1 == string.count(',')):
         if 'ERROR' in string:
             return string
@@ -53,24 +53,35 @@ def searching_for_constants(string: list) -> list:
     return string
 
 
-def merging_pluses_and_minuses(input_string: str) -> str:
+def merging_pluses_and_minuses(input_string: list) -> list:
     """It merges '+-' and '-+' in '-' and '--' in '+' """
-    flag = True   # Stops cycle of merging
-    while flag:
-        flag = False
-        if '+-' in input_string:
-            input_string = input_string.replace('+-', '-')
-            flag = True
-        if '-+' in input_string:
-            input_string = input_string.replace('-+', '-')
-            flag = True
-        if '--' in input_string:
-            input_string = input_string.replace('--', '+')
-            flag = True
-        if '++' in input_string:
-            input_string = input_string.replace('++', '+')
-            flag = True
+    index = 0
+    length = len(input_string)-2
+    while index != length:
+        if (input_string[index] == '+' and input_string[index+1] == '-') or \
+                (input_string[index] == '-' and input_string[index+1] == '+'):
+            input_string[index] = '-'
+            del input_string[index+1]
+            length -= 1
+        elif (input_string[index] == '+' and input_string[index+1] == '+') or \
+                (input_string[index] == '-' and input_string[index+1] == '-'):
+            input_string[index] = '+'
+            del input_string[index + 1]
+            length -= 1
+        else: index += 1
     return input_string
+
+
+def positive_and_negative(string: list) -> list:
+    """Searches for positive and negative numbers"""
+    for index, symbol in enumerate(string[::]):
+        if (symbol == '+' or symbol == '-') \
+                and (string[index-1] in Data.OPERATION_SET or index == 0) \
+                and (string[index+1].replace('.', '', 1).lstrip('-').isdigit()):
+            if symbol == '-':
+                string[index+1] = str(0 - float(string[index+1]))
+            del string[index]
+    return string
 
 
 def positive_and_negative(string: list) -> list:
