@@ -3,7 +3,8 @@
 :author: Fyodorova Elena
 """
 from re import findall
-import Data
+import pycalc.Data as Data
+import argparse
 
 
 def pycalc(string: str):
@@ -23,7 +24,7 @@ def pycalc(string: str):
             return "ERROR: '{0}' is unknown function or constant".format(function)
     # Searching for unknown number and letter combinations
     string = positive_and_negative(searching_for_constants(findall(
-        '[0-9.]+|//|==|<=|=>|!=|[<>*/^%)(+-]|\\w+\\d+|\\w+|[^ ,\\[\\]]', merging_pluses_and_minuses(string)
+        '[0-9.]+|//|==|<=|=>|!=|[<>*/^%)(+-]|\\w+\\d+|\\w+|[^ ,\\[\\]\']', merging_pluses_and_minuses(string)
     )))
     # Merging pluses and minuses and searching for negative and positive numbers
     try:
@@ -163,3 +164,9 @@ def calculating_expression_in_brackets(string: list):
     except ValueError:
         return 'ERROR: wrong syntax'
     return string
+
+
+def Main():
+    parser = argparse.ArgumentParser(description='Pure-python command-line calculator.')
+    parser.add_argument('EXPRESSION', help='expression to evaluate')
+    print(pycalc(parser.parse_args().EXPRESSION))
