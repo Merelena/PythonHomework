@@ -23,10 +23,16 @@ def pycalc(string: str):
         if function not in Data.FUNCTION_DICT:
             return "ERROR: '{0}' is unknown function or constant".format(function)
     # Searching for unknown number and letter combinations
+    if findall('[0-9.]+', string) == [string]:
+        return float(string)
+    if findall(('\\w+\\d+|\\w+'), string) == [string]:
+        return 'ERROR: no expression'
     try:
         if len(string) <= 1:
             float(string[0])
     except ValueError:
+        return 'ERROR: no expression'
+    except IndexError:
         return 'ERROR: no expression'
     string = positive_and_negative(searching_for_constants(merging_pluses_and_minuses(findall(
         '[0-9.]+|//|==|<=|>=|!=|[<>*/^%)(+-]|\\w+\\d+|\\w+|[^ ,\\[\\]\']', string

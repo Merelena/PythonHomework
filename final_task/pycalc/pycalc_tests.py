@@ -8,6 +8,13 @@ class MainModuleTest(unittest.TestCase):
     def setUpClass(cls) -> None:
         print('Functions of main module: ')
 
+    def test_pycalc(self):
+        self.assertEqual('----', text.startswith('ERROR:'))
+        self.assertEqual('e^e^2', e**e**2)
+        self.assertEqual('log', text.startswith('ERROR:'))
+        self.assertEqual('sin(pi/2)', 1)
+        self.assertEqual('()()()()((((())', text.startswith('ERROR:')
+
     def test_searching_for_constants(self):
         self.assertEqual(pycalc.searching_for_constants(
             ['e', '+', 'pi']),
@@ -17,8 +24,8 @@ class MainModuleTest(unittest.TestCase):
             ['6.283185307179586', '-', 'inf', '+', 'nan'])
 
     def test_merging_pluses_and_minuses(self):
-        self.assertEqual(pycalc.merging_pluses_and_minuses('3+---++-++-4'), '3-4')
-        self.assertEqual(pycalc.merging_pluses_and_minuses('++4--4'), '+4+4')
+        self.assertEqual(pycalc.merging_pluses_and_minuses(list('3+---++-++-4')), list('3-4'))
+        self.assertEqual(pycalc.merging_pluses_and_minuses(list('++4--4')), list('+4+4'))
 
     def test_positive_and_negative(self):
         self.assertEqual(pycalc.positive_and_negative(['-', '4']), ['-4.0'])
@@ -71,8 +78,8 @@ class DataModuleTest(unittest.TestCase):
         self.assertEqual(Data.greater(3.0, 3.0), False)
 
     def test_greater_or_equal(self):
-        self.assertEqual(Data.greater_or_equel(4.0, 3.0), True)
-        self.assertEqual(Data.greater_or_equel(3.0, 3.0), True)
+        self.assertEqual(Data.greater_or_equal(4.0, 3.0), True)
+        self.assertEqual(Data.greater_or_equal(3.0, 3.0), True)
 
     def test_unequal(self):
         self.assertEqual(Data.unequal(4.0, 3.0), True)
