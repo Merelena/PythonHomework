@@ -8,6 +8,8 @@ setup(name='pycalc',
       author_email='fedorova.elena.dz@gmail.com',
       packages=['pycalc'],
       entry_points={
-          'console_scripts': ['pycalc=pycalc.pycalc:main']
+          'console_scripts': [
+                'pycalc=pycalc.pycalc:main'
+          ]
       }
 )

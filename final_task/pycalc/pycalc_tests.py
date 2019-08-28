@@ -1,6 +1,6 @@
 import unittest
-import pycalc
-import Data
+import pycalc.pycalc as pycalc
+import pycalc.Data as Data
 
 
 class MainModuleTest(unittest.TestCase):

@@ -166,7 +166,7 @@ def calculating_expression_in_brackets(string: list):
     return string
 
 
-def Main():
+def main():
     parser = argparse.ArgumentParser(description='Pure-python command-line calculator.')
     parser.add_argument('EXPRESSION', help='expression to evaluate')
     print(pycalc(parser.parse_args().EXPRESSION))
