@@ -4,6 +4,7 @@ import pycalc.Data as Data
 
 
 class MainModuleTest(unittest.TestCase):
+    """Tests for functions of python.py"""
     @classmethod
     def setUpClass(cls) -> None:
         print('Functions of main module: ')
@@ -43,6 +44,7 @@ class MainModuleTest(unittest.TestCase):
 
 
 class DataModuleTest(unittest.TestCase):
+    """Tests for functions of Data.py"""
     @classmethod
     def setUpClass(cls) -> None:
         print('Functions of data module: ')
