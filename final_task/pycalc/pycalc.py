@@ -5,6 +5,7 @@
 from re import findall
 import pycalc.Data as Data
 import argparse
+import importlib
 
 
 def pycalc(string: str):
@@ -187,4 +188,13 @@ def calculating_expression_in_brackets(string: list):
 def main():
     parser = argparse.ArgumentParser(description='Pure-python command-line calculator.')
     parser.add_argument('EXPRESSION', help='expression to evaluate')
+    parser.add_argument('-m', '--use-modules', nargs='+', dest='MODULE', help='additional modules to use')
+        if parser.parse_args().MODULE:
+            for module in parser.parse_args().MODULE:
+                module = importlib.import_module('{0}'.format(module))
+                for function in module.__dict__.keys():
+                    Data.FUNCTION_DICT[function] = module.__dict__[function]
+        # Allows to use other foreground modules
+    except ModuleNotFoundError:
+        print('ERROR: no module')
     print(pycalc(parser.parse_args().EXPRESSION))
