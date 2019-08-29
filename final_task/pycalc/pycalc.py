@@ -189,6 +189,7 @@ def main():
     parser = argparse.ArgumentParser(description='Pure-python command-line calculator.')
     parser.add_argument('EXPRESSION', help='expression to evaluate')
     parser.add_argument('-m', '--use-modules', nargs='+', dest='MODULE', help='additional modules to use')
+    try:
         if parser.parse_args().MODULE:
             for module in parser.parse_args().MODULE:
                 module = importlib.import_module('{0}'.format(module))
