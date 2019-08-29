@@ -26,7 +26,7 @@ def pycalc(string: str):
     # Searching for unknown number and letter combinations
     if findall('[0-9.]+', string) == [string]:
         return float(string)
-    if findall(('\\w+\\d+|\\w+'), string) == [string]:
+    if findall('\\w+\\d+|\\w+', string) == [string]:
         return 'ERROR: no expression'
     try:
         if len(string) <= 1:
@@ -52,56 +52,45 @@ def pycalc(string: str):
         return False
 
 
-def searching_for_constants(string: list) -> list:
+def searching_for_constants(expression: list) -> list:
     """Changes constants to relevant numbers"""
-    for index, symbol in enumerate(string):
+    for index, symbol in enumerate(expression):
         if symbol in Data.CONSTANTS.keys():
-            string[index] = str(Data.CONSTANTS[symbol])
-    return string
+            expression[index] = str(Data.CONSTANTS[symbol])
+    return expression
 
 
-def merging_pluses_and_minuses(input_string: list) -> list:
+def merging_pluses_and_minuses(input_expression: list) -> list:
     """It merges '+-' and '-+' in '-' and '--' in '+' """
     index = 0
-    length = len(input_string)-2
+    length = len(input_expression) - 2
+    # Length of expression without last symbol for correct work with indexes (last symbol can not be '-' or '+'
     while index != length:
-        if (input_string[index] == '+' and input_string[index+1] == '-') or \
-                (input_string[index] == '-' and input_string[index+1] == '+'):
-            input_string[index] = '-'
-            del input_string[index+1]
+        if (input_expression[index] == '+' and input_expression[index + 1] == '-') or \
+                (input_expression[index] == '-' and input_expression[index + 1] == '+'):
+            input_expression[index] = '-'
+            del input_expression[index + 1]
             length -= 1
-        elif (input_string[index] == '+' and input_string[index+1] == '+') or \
-                (input_string[index] == '-' and input_string[index+1] == '-'):
-            input_string[index] = '+'
-            del input_string[index + 1]
+        elif (input_expression[index] == '+' and input_expression[index + 1] == '+') or \
+                (input_expression[index] == '-' and input_expression[index + 1] == '-'):
+            input_expression[index] = '+'
+            del input_expression[index + 1]
             length -= 1
         else:
             index += 1
-    return input_string
+    return input_expression
 
 
-def positive_and_negative(string: list) -> list:
+def positive_and_negative(expression: list) -> list:
     """Searches for positive and negative numbers"""
-    for index, symbol in enumerate(string[::]):
+    for index, symbol in enumerate(expression):
         if (symbol == '+' or symbol == '-') \
-                and (string[index-1] in Data.OPERATION_SET or index == 0) \
-                and (string[index+1].replace('.', '', 1).lstrip('-').isdigit()):
+                and (expression[index - 1] in Data.OPERATION_SET or index == 0) \
+                and (expression[index + 1].replace('.', '', 1).lstrip('-').isdigit()):
             if symbol == '-':
-                string[index+1] = str(0 - float(string[index+1]))
-            del string[index]
-    return string
-
-
-def positive_and_negative(string: list) -> list:
-    """Searches for positive and negative numbers"""
-    for index, symbol in enumerate(string[::]):
-        if (symbol == '+' or symbol == '-') \
-                and (string[index-1] in Data.OPERATION_SET or index == 0) \
-                and (string[index+1].replace('.', '', 1).lstrip('-').isdigit()):
-            if symbol == '-':
-                string[index+1] = str(0 - float(string[index+1]))
-            del string[index]
-    return string
+                expression[index + 1] = str(0 - float(expression[index + 1]))
+            del expression[index]
+    return expression
 
 
 def raising_a_power(expression: list) -> list:
@@ -115,36 +104,36 @@ def raising_a_power(expression: list) -> list:
     return expression
 
 
-def inclusion_in_general_expression(string, expression: list, start, finish):
+def inclusion_in_general_expression(main_expression, expression: list, start, finish):
     """Embeds result of calculating expressions in general expression"""
     for index, number in enumerate(expression):
         if type(expression[index]) != bool:
             expression[index] = float(number)
-    if string[start - 1] in Data.FUNCTION_DICT.keys():
-        if string[start - 1] == 'fsum':
-            expression = Data.FUNCTION_DICT[string[start - 1]](expression)
+    if main_expression[start - 1] in Data.FUNCTION_DICT.keys():
+        if main_expression[start - 1] == 'fsum':
+            expression = Data.FUNCTION_DICT[main_expression[start - 1]](expression)
         else:
-            expression = Data.FUNCTION_DICT[string[start - 1]](*expression)
+            expression = Data.FUNCTION_DICT[main_expression[start - 1]](*expression)
         # For correct work of function 'fsum'
-        string = string[:start - 1] + [str(expression)] + string[finish + 1:]
+        main_expression = main_expression[:start - 1] + [str(expression)] + main_expression[finish + 1:]
     elif len(expression) == 1:
-        string = string[:start] + [str(expression[0])] + string[finish + 1:]
+        main_expression = main_expression[:start] + [str(expression[0])] + main_expression[finish + 1:]
     else:
         return 'ERROR: something is lost'
-    return string
+    return main_expression
 
 
-def calculating_expression_in_brackets(string: list):
+def calculating_expression_in_brackets(main_expression: list):
     """Calculates all expressions in brackets
 
-    :param string: list type
+    :param main_expression: list type
     :return: gradual result of calculation expressions or error messages
     """
     simple_expression = []
-    if '(' in string:
-        start = len(string) - string[::-1].index('(') - 1   # Last entry of opening bracket
+    if '(' in main_expression:
+        start = len(main_expression) - main_expression[::-1].index('(') - 1   # Last entry of opening bracket
         finish = start
-        for symbol in string[start:]:
+        for symbol in main_expression[start:]:
             if symbol == ')':
                 break
             simple_expression.append(symbol)   # Updating of simple expression in brackets
@@ -153,8 +142,8 @@ def calculating_expression_in_brackets(string: list):
                 del simple_expression[0]
     else:
         start = 0
-        finish = len(string) - 1
-        simple_expression = string
+        finish = len(main_expression) - 1
+        simple_expression = main_expression
     # Calculates start of simple expression without opening bracket
     temp = positive_and_negative(simple_expression)   # Retests to negative and positive numbers
     finish -= len(simple_expression) - len(temp)   # Calculates finish of simple expression without closing bracket
@@ -175,14 +164,14 @@ def calculating_expression_in_brackets(string: list):
                     temp += 2
         # Calculates expressions from start to finish
             temp = 0
-        string = inclusion_in_general_expression(string, simple_expression, start, finish)
+        main_expression = inclusion_in_general_expression(main_expression, simple_expression, start, finish)
     except IndexError:
         return 'ERROR: number is lost'
     except TypeError:
         return 'ERROR: wrong number of arguments'
     except ValueError:
         return 'ERROR: wrong syntax'
-    return string
+    return main_expression
 
 
 def main():
